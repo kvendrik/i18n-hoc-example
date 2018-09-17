@@ -9,7 +9,11 @@ function ProductIndex({translate, locale}: ComposedProps) {
   return (
     <>
       <h1>{translate('ProductIndex.title')}</h1>
-      <p>Your locale is: {locale}.</p>
+      <p>
+        {translate('ProductIndex.yourLocale', {
+          locale,
+        })}
+      </p>
     </>
   );
 }

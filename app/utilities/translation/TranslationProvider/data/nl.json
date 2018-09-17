@@ -1,5 +1,6 @@
 {
   "ProductIndex": {
-    "title": "Geweldig product!"
+    "title": "Geweldig product!",
+    "yourLocale": "Jouw locale is: {locale}."
   }
 }
