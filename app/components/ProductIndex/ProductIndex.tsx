@@ -32,10 +32,8 @@ function ProductIndex({
 
 export default compose<Props>(
   withI18n({
-    getLanguageData(locale: string) {
-      if (locale === 'en') {
-        return import(`./languages/en.json`);
-      } else if (locale === 'nl') {
+    getLanguageData(language: string) {
+      if (language === 'nl') {
         return import(`./languages/nl.json`);
       }
       return import(`./languages/en.json`);
