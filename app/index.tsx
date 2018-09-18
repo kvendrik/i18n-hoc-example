@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {render} from 'react-dom';
-import {TranslationProvider} from 'utilities/translation';
+import {Provider as I18nProvider} from '@kv/i18n';
 import ProductIndex from './components/ProductIndex';
 
 render(
-  <TranslationProvider>
+  <I18nProvider>
     <ProductIndex />
-  </TranslationProvider>,
+  </I18nProvider>,
   document.getElementById('app'),
 );

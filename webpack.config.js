@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {TsConfigPathsPlugin} = require('awesome-typescript-loader');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const PATHS = {
   app: `${__dirname}/app`,
@@ -14,7 +14,7 @@ module.exports = {
     port: 9000,
     compress: true,
     historyApiFallback: {
-      rewrites: [{from: /^\/[^\.]+$/, to: '/index.html'}],
+      rewrites: [{from: /^\/[^.]+$/, to: '/index.html'}],
     },
   },
   devtool: 'cheap-module-eval-source-map',
@@ -25,10 +25,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     modules: [path.resolve('./node_modules')],
     plugins: [
-      new TsConfigPathsPlugin({
-        configFileName: path.resolve(`./tsconfig.json`),
-        compiler: 'typescript',
-      }),
+      new TsconfigPathsPlugin({configFile: path.resolve(`./tsconfig.json`)}),
     ],
   },
   output: {

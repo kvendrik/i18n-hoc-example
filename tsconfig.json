@@ -12,12 +12,12 @@
     "target": "es5",
     "lib": ["es6", "dom", "es7"],
     "moduleResolution": "node",
-    "rootDir": "app",
+    "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "components/*": ["app/components/*"],
-      "utilities/*": ["app/utilities/*"]
+      "*": ["packages/*", "app/*"]
     }
   },
-  "exclude": ["node_modules"]
+  "include": ["./config/*", "./app/**/*", "./packages/**/*"],
+  "exclude": ["./node_modules/**/*"]
 }
