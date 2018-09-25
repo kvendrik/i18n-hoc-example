@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {bind} from 'lodash-decorators';
-import {get, template, templateSettings} from 'lodash';
 import {Context, I18nData} from '../Provider';
 
 interface Fields {
@@ -8,20 +7,18 @@ interface Fields {
 }
 
 interface Settings {
-  getLanguageData(locale: string): void;
+  getLanguageData(locale: string): Promise<any>;
 }
 
-export interface I18nProps extends I18nData {
-  translate(path: string, fields?: Fields): string | null;
+export interface I18nProps<Translation> extends I18nData {
+  translation: Translation;
   formatDate(date: Date, options?: Intl.DateTimeFormatOptions): string;
   formatNumber(value: number): string;
 }
 
-export interface WithI18nProps {
-  i18n: I18nProps;
+export interface WithI18nProps<Translation> {
+  i18n: I18nProps<Translation>;
 }
-
-templateSettings.interpolate = /{([\s\S]+?)}/g;
 
 function withI18n<ComponentProps>({getLanguageData}: Settings) {
   function addWithI18n(WrappedComponent: React.SFC<any>) {
@@ -54,28 +51,14 @@ function withI18n<ComponentProps>({getLanguageData}: Settings) {
           return null;
         }
 
-        const i18nProps: I18nProps = {
+        const i18nProps = {
           ...(i18n as I18nData),
-          translate: this.translate,
+          translation: languageData,
           formatDate: this.formatDate,
           formatNumber: this.formatNumber,
         };
 
         return <WrappedComponent {...this.props} i18n={i18nProps} />;
-      }
-
-      @bind()
-      private translate(path: string, fields: Fields) {
-        const {languageData} = this.state;
-        const rawValue = get(languageData, path);
-        if (!rawValue) {
-          return null;
-        }
-        if (!fields) {
-          return rawValue;
-        }
-        const compiled = template(rawValue);
-        return compiled(fields);
       }
 
       @bind()

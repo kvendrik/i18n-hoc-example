@@ -1,42 +1,34 @@
 import * as React from 'react';
 import compose from '@shopify/react-compose';
 import {withI18n, WithI18nProps} from '@kv/i18n';
+import {Translation} from './translations';
 
 type Props = {};
-type ComposedProps = WithI18nProps;
+type ComposedProps = WithI18nProps<Translation>;
 
 function ProductIndex({
-  i18n: {translate, locale, formatDate, formatNumber},
+  i18n: {translation, locale, formatDate, formatNumber},
 }: ComposedProps) {
   return (
     <>
-      <h1>{translate('title')}</h1>
-      <p>
-        {translate('yourLocale', {
-          locale,
-        })}
-      </p>
-      <p>
-        {translate('formattedDate', {
-          date: formatDate(new Date()),
-        })}
-      </p>
-      <p>
-        {translate('formattedNumber', {
-          number: formatNumber(1000000),
-        })}
-      </p>
+      <h1>{translation.title}</h1>
+      <p>{translation.yourLocale(locale)}</p>
+      <p>{translation.formattedDate(formatDate(new Date()))}</p>
+      <p>{translation.formattedNumber(formatNumber(1000000))}</p>
     </>
   );
 }
 
 export default compose<Props>(
   withI18n({
-    getLanguageData(language: string) {
+    async getLanguageData(language: string) {
+      let data;
       if (language === 'nl') {
-        return import(`./languages/nl.json`);
+        data = await import('./translations/nl');
+        return data.default;
       }
-      return import(`./languages/en.json`);
+      data = await import('./translations/en');
+      return data.default;
     },
   }),
 )(ProductIndex);

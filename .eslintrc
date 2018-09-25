@@ -13,7 +13,8 @@
     "react/no-unescaped-entities": "off",
     "class-methods-use-this": "off",
     "no-unused-vars": "off",
-    "react/sort-comp": "off"
+    "react/sort-comp": "off",
+    "import/prefer-default-export": "off"
   },
   "env": {
     "browser": true,

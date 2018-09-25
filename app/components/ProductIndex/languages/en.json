@@ -1,7 +1,0 @@
-{
-  "title": "Great product!",
-  "yourLocale": "Your locale is: {locale}.",
-  "formattedDate": "A formatted date in the locale looks like this: {date}.",
-  "formattedNumber":
-    "A formatted number in the locale looks like this: {number}."
-}
