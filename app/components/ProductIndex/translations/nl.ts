@@ -1,6 +1,4 @@
-import {Translation} from './';
-
-const nl: Translation = {
+export default {
   title: 'Geweldig product!',
   yourLocale: (locale: string) => `Jouw locale is: ${locale}.`,
   formattedDate: (date: string) =>
@@ -8,5 +6,3 @@ const nl: Translation = {
   formattedNumber: (formattedNumber: string) =>
     `Een geformatteerd nummer in deze locale ziet er zo uit: ${formattedNumber}.`,
 };
-
-export default nl;

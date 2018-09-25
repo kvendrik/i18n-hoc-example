@@ -2,12 +2,8 @@ import * as React from 'react';
 import {bind} from 'lodash-decorators';
 import {Context, I18nData} from '../Provider';
 
-interface Fields {
-  [key: string]: string;
-}
-
-interface Settings {
-  getLanguageData(locale: string): Promise<any>;
+interface Settings<Dictionary> {
+  getDictionary(): Dictionary;
 }
 
 export interface I18nProps<Translation> extends I18nData {
@@ -20,40 +16,43 @@ export interface WithI18nProps<Translation> {
   i18n: I18nProps<Translation>;
 }
 
-function withI18n<ComponentProps>({getLanguageData}: Settings) {
+function withI18n<ComponentProps, Translation, Dictionary>({
+  getDictionary,
+}: Settings<Dictionary>) {
   function addWithI18n(WrappedComponent: React.SFC<any>) {
     type ComposedProps = ComponentProps & {
       i18n: I18nData;
     };
 
     interface State {
-      languageData: any;
+      translationData: Translation | null;
     }
 
     class I18nWrapper extends React.Component<ComposedProps, State> {
       state = {
-        languageData: null,
+        translationData: null,
       };
 
       async componentWillMount() {
         const {
           i18n: {language},
         } = this.props;
-        const languageData = await getLanguageData(language);
-        this.setState({languageData});
+        const dictionary = await getDictionary();
+        const translationData = (dictionary as any)[language];
+        this.setState({translationData});
       }
 
       render() {
         const {i18n} = this.props;
-        const {languageData} = this.state;
+        const {translationData} = this.state;
 
-        if (!languageData) {
+        if (!translationData) {
           return null;
         }
 
         const i18nProps = {
           ...(i18n as I18nData),
-          translation: languageData,
+          translation: translationData,
           formatDate: this.formatDate,
           formatNumber: this.formatNumber,
         };

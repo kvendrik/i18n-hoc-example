@@ -4,3 +4,6 @@ export interface Translation {
   formattedDate(date: string): string;
   formattedNumber(formattedNumber: string): string;
 }
+
+export {default as nl} from './nl';
+export {default as en} from './en';

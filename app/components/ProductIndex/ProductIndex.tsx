@@ -1,7 +1,6 @@
 import * as React from 'react';
-import compose from '@shopify/react-compose';
-import {withI18n, WithI18nProps} from '@kv/i18n';
-import {Translation} from './translations';
+import {withI18n, WithI18nProps, Dictionary} from 'utilities/i18n';
+import {Translation, nl, en} from './translations';
 
 type Props = {};
 type ComposedProps = WithI18nProps<Translation>;
@@ -19,16 +18,6 @@ function ProductIndex({
   );
 }
 
-export default compose<Props>(
-  withI18n({
-    async getLanguageData(language: string) {
-      let data;
-      if (language === 'nl') {
-        data = await import('./translations/nl');
-        return data.default;
-      }
-      data = await import('./translations/en');
-      return data.default;
-    },
-  }),
-)(ProductIndex);
+export default withI18n<Props, Translation, Dictionary<Translation>>({
+  getDictionary: () => ({nl, en}),
+})(ProductIndex);
